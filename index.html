@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#f4f1eb" />
+  <meta name="theme-color" content="#eef7ef" />
   <title>免单排行榜</title>
   <style>
     :root {
-      --canvas: #f4f1eb;
-      --surface: #fbfaf7;
-      --card: #fffefa;
-      --ink: #24231f;
-      --muted: #817d74;
-      --faint: #aba69c;
-      --line: rgba(49, 43, 34, 0.09);
-      --tea: #67584a;
-      --tea-soft: #eee7dd;
-      --cinnabar: #a5574c;
-      --green: #68735f;
+      --canvas: #f3f6f1;
+      --surface: #ffffff;
+      --card: #ffffff;
+      --ink: #202521;
+      --muted: #818b84;
+      --faint: #a9b2ac;
+      --line: rgba(43, 66, 49, 0.09);
+      --tea: #45614e;
+      --tea-soft: #e8f1e9;
+      --cinnabar: #b66550;
+      --green: #35b96c;
       --radius-lg: 24px;
       --radius-md: 16px;
       --page-x: 18px;
@@ -26,7 +26,7 @@
     * { box-sizing: border-box; }
 
     html {
-      background: #e9e5de;
+      background: #e6ebe6;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -35,7 +35,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      background: #e9e5de;
+      background: #e6ebe6;
     }
 
     button { font: inherit; }
@@ -45,15 +45,15 @@
       min-height: 100vh;
       margin: 0 auto;
       overflow: hidden;
-      background: var(--canvas);
-      box-shadow: 0 0 50px rgba(47, 41, 33, 0.08);
+      background: linear-gradient(180deg, #edf7ee 0, var(--canvas) 250px, var(--canvas) 100%);
+      box-shadow: 0 0 50px rgba(38, 66, 46, 0.07);
     }
 
     .top-shell {
       position: sticky;
       top: 0;
       z-index: 20;
-      background: rgba(244, 241, 235, 0.96);
+      background: rgba(238, 247, 239, 0.94);
       backdrop-filter: blur(18px);
     }
 
@@ -150,7 +150,7 @@
       padding: 2px 5px;
       border-radius: 99px;
       color: #8a8178;
-      background: #e9e4dc;
+      background: #f0ede8;
       font-size: 8px;
       font-style: normal;
       font-weight: 620;
@@ -166,7 +166,7 @@
       width: 30px;
       height: 2px;
       border-radius: 2px;
-      background: var(--tea);
+      background: var(--green);
       transform: translateX(-50%);
     }
 
@@ -179,13 +179,14 @@
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       background: var(--surface);
+      box-shadow: 0 14px 38px rgba(40, 73, 48, 0.055);
     }
 
     .campaign-image {
       position: relative;
       aspect-ratio: 3 / 2;
       overflow: hidden;
-      background: #e7e0d4;
+      background: #e7ece7;
     }
 
     .campaign-image img {
@@ -322,12 +323,26 @@
 
     .live.ended { color: var(--muted); }
 
+    .app.is-past .campaign {
+      border-color: rgba(112, 101, 88, 0.1);
+      background: #fffdfa;
+      box-shadow: 0 14px 38px rgba(72, 62, 52, 0.045);
+    }
+
+    .app.is-past .campaign-badge { background: rgba(72, 64, 56, 0.55); }
+
+    .app.is-past .reward-trigger {
+      color: #8d847a;
+      border-color: rgba(112, 101, 88, 0.24);
+    }
+
     .my-score {
       margin-top: 24px;
       padding: 22px;
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       background: var(--surface);
+      box-shadow: 0 12px 32px rgba(40, 73, 48, 0.045);
     }
 
     .my-score h2 {
@@ -405,18 +420,19 @@
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
       background: var(--card);
+      box-shadow: 0 14px 36px rgba(40, 73, 48, 0.05);
       transition: transform .2s ease, box-shadow .2s ease;
       cursor: pointer;
     }
 
     .rank-card:active { transform: scale(.992); }
-    .rank-card:first-child { border-color: rgba(165,87,76,.28); }
+    .rank-card:first-child { border-color: rgba(53,185,108,.22); }
 
     .photo-wrap {
       position: relative;
       aspect-ratio: 3 / 2;
       overflow: hidden;
-      background: #e9e4db;
+      background: #e7ece7;
     }
 
     .photo-wrap::after {
@@ -490,7 +506,7 @@
       overflow: hidden;
       border: 1px solid rgba(77,67,57,.08);
       border-radius: 50%;
-      background: #d8d1c6;
+      background: #d9e1da;
     }
 
     .avatar img {
@@ -504,8 +520,8 @@
       margin: 18px 0 0;
       padding: 15px 16px;
       border-radius: var(--radius-md);
-      color: #625f58;
-      background: #f3f0ea;
+      color: #5f6861;
+      background: #f3f7f3;
       font-size: 14px;
       line-height: 1.7;
       min-height: calc(14px * 1.7 * 2 + 30px);
@@ -536,7 +552,7 @@
       width: min(100%, 430px);
       padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
       transform: translateX(-50%);
-      background: linear-gradient(to top, var(--canvas) 76%, rgba(244,241,235,0));
+      background: linear-gradient(to top, var(--canvas) 76%, rgba(243,246,241,0));
     }
 
     .action-placeholder {
@@ -545,10 +561,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px dashed rgba(103,88,74,.3);
+      border: 1px dashed rgba(53,185,108,.35);
       border-radius: 16px;
       color: var(--muted);
-      background: rgba(255,253,249,.86);
+      background: rgba(255,255,255,.88);
       font-size: 13px;
       font-weight: 560;
       letter-spacing: .01em;
@@ -942,6 +958,7 @@
         campaignSubtitle.textContent = isPast ? '本期活动已结束' : '这周我请客';
         campaignStatus.textContent = isPast ? '已结束' : '进行中';
         campaignStatus.classList.toggle('ended', isPast);
+        document.querySelector('.app').classList.toggle('is-past', isPast);
         campaignCountdown.hidden = isPast;
         showToast(isPast ? '已切换至往期活动' : '已切换至本期活动');
       });
