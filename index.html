@@ -417,14 +417,18 @@
     .avatar {
       width: 28px;
       height: 28px;
-      display: grid;
-      place-items: center;
+      display: block;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,.8);
+      border: 1px solid rgba(77,67,57,.08);
       border-radius: 50%;
       background: #d8d1c6;
-      color: white;
-      font-size: 11px;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
     }
 
     .review {
@@ -453,16 +457,6 @@
       color: var(--green);
       font-size: 13px;
       font-weight: 600;
-    }
-
-    .card-foot::before {
-      content: "";
-      width: 14px;
-      height: 14px;
-      margin-right: 7px;
-      border: 1.5px solid currentColor;
-      border-radius: 50% 50% 45% 45%;
-      opacity: .75;
     }
 
     .bottom-bar {
@@ -716,7 +710,7 @@
               <div class="title-group"><span class="rank-no">01</span><h3 class="drink-name">开心果奶盖茉莉茶</h3></div>
               <span class="amount">18元</span>
             </div>
-            <div class="user-row"><span class="avatar">茶</span><span>wx294046</span></div>
+            <div class="user-row"><span class="avatar"><img src="assets/avatars/avatar-04.jpg" alt="wx294046的头像" /></span><span>wx294046</span></div>
             <p class="review"><strong>AI测评：</strong>奶盖厚厚一层撒满开心果碎，清香不腻太绝了</p>
             <div class="card-foot">已获59票</div>
           </div>
@@ -731,7 +725,7 @@
               <div class="title-group"><span class="rank-no">02</span><h3 class="drink-name">生椰拿铁</h3></div>
               <span class="amount">15元</span>
             </div>
-            <div class="user-row"><span class="avatar">椰</span><span>wx935166</span></div>
+            <div class="user-row"><span class="avatar"><img src="assets/avatars/avatar-02.jpg" alt="wx935166的头像" /></span><span>wx935166</span></div>
             <p class="review"><strong>AI测评：</strong>椰香混着咖啡味，七分甜刚刚好，入口顺滑又清爽</p>
             <div class="card-foot">已获47票</div>
           </div>
@@ -746,7 +740,7 @@
               <div class="title-group"><span class="rank-no">03</span><h3 class="drink-name">白桃乌龙奶盖</h3></div>
               <span class="amount">12元</span>
             </div>
-            <div class="user-row"><span class="avatar">桃</span><span>wx672018</span></div>
+            <div class="user-row"><span class="avatar"><img src="assets/avatars/avatar-03.png" alt="wx672018的头像" /></span><span>wx672018</span></div>
             <p class="review"><strong>AI测评：</strong>白桃香气清透，乌龙回甘干净，奶盖咸甜刚好</p>
             <div class="card-foot">已获42票</div>
           </div>
@@ -761,7 +755,7 @@
               <div class="title-group"><span class="rank-no">04</span><h3 class="drink-name">黑糖珍珠鲜奶</h3></div>
               <span class="amount">10元</span>
             </div>
-            <div class="user-row"><span class="avatar">糖</span><span>wx518327</span></div>
+            <div class="user-row"><span class="avatar"><img src="assets/avatars/avatar-01.jpg" alt="wx518327的头像" /></span><span>wx518327</span></div>
             <p class="review"><strong>AI测评：</strong>黑糖焦香浓郁，珍珠软糯有嚼劲，奶味顺滑</p>
             <div class="card-foot">已获36票</div>
           </div>
@@ -776,7 +770,7 @@
               <div class="title-group"><span class="rank-no">05</span><h3 class="drink-name">抹茶红豆冰</h3></div>
               <span class="amount">8元</span>
             </div>
-            <div class="user-row"><span class="avatar">抹</span><span>wx860214</span></div>
+            <div class="user-row"><span class="avatar"><img src="assets/avatars/avatar-02.jpg" alt="wx860214的头像" /></span><span>wx860214</span></div>
             <p class="review"><strong>AI测评：</strong>抹茶微苦回甘，红豆绵密不腻，冰感清爽</p>
             <div class="card-foot">已获28票</div>
           </div>
