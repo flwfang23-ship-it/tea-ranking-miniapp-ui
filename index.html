@@ -137,9 +137,24 @@
       border: 0;
       color: var(--muted);
       background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       font-size: 15px;
       font-weight: 560;
       cursor: pointer;
+    }
+
+    .tab-status {
+      padding: 2px 5px;
+      border-radius: 99px;
+      color: #8a8178;
+      background: #e9e4dc;
+      font-size: 8px;
+      font-style: normal;
+      font-weight: 620;
+      line-height: 1.3;
     }
 
     .tab.active { color: var(--ink); font-weight: 680; }
@@ -180,8 +195,7 @@
       object-fit: cover;
     }
 
-    .campaign-badge,
-    .campaign-history {
+    .campaign-badge {
       position: absolute;
       top: 16px;
       padding: 7px 10px;
@@ -196,7 +210,6 @@
     }
 
     .campaign-badge { left: 16px; }
-    .campaign-history { right: 16px; }
 
     .campaign-content { padding: 26px 22px 24px; }
 
@@ -277,8 +290,6 @@
       letter-spacing: -.03em;
     }
     .prize-value small { font-size: 15px; font-weight: 680; }
-    .prize-note { display: block; margin-top: 7px; color: var(--muted); font-size: 10px; }
-
     .reward-trigger {
       height: 29px;
       margin-top: 10px;
@@ -298,6 +309,8 @@
       gap: 8px;
     }
 
+    .countdown-row[hidden] { display: none; }
+
     .countdown-label { color: var(--muted); font-size: 12px; }
     .countdown {
       color: var(--cinnabar);
@@ -305,6 +318,62 @@
       font-size: 15px;
       font-weight: 650;
       letter-spacing: .02em;
+    }
+
+    .live.ended { color: var(--muted); }
+
+    .my-score {
+      margin-top: 24px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+    }
+
+    .my-score h2 {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1;
+      font-weight: 570;
+    }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .score-item {
+      position: relative;
+      text-align: center;
+    }
+
+    .score-item + .score-item::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      bottom: 5px;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .score-value {
+      display: block;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 680;
+      letter-spacing: -.02em;
+    }
+
+    .score-value.highlight { color: var(--green); }
+
+    .score-label {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .section-heading {
@@ -470,18 +539,19 @@
       background: linear-gradient(to top, var(--canvas) 76%, rgba(244,241,235,0));
     }
 
-    .primary-action {
+    .action-placeholder {
       width: 100%;
       height: 52px;
-      border: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed rgba(103,88,74,.3);
       border-radius: 16px;
-      color: #fffdfa;
-      background: var(--tea);
-      font-size: 16px;
-      font-weight: 650;
-      letter-spacing: .03em;
-      box-shadow: 0 8px 22px rgba(69,57,46,.14);
-      cursor: pointer;
+      color: var(--muted);
+      background: rgba(255,253,249,.86);
+      font-size: 13px;
+      font-weight: 560;
+      letter-spacing: .01em;
     }
 
     .toast {
@@ -659,9 +729,9 @@
         </div>
       </div>
       <nav class="tabs" aria-label="活动分类">
-        <button class="tab active">奶茶免单</button>
-        <button class="tab">咖啡免单</button>
-        <button class="tab">甜品免单</button>
+        <button class="tab active" data-view="current">奶茶免单</button>
+        <button class="tab" data-view="past"><span>咖啡免单</span><em class="tab-status">往期</em></button>
+        <button class="tab" data-view="future">甜品免单</button>
       </nav>
     </header>
 
@@ -669,25 +739,23 @@
       <section class="campaign">
         <div class="campaign-image">
           <img src="assets/ranking-hero-tea.png" alt="奶茶免单活动饮品" />
-          <span class="campaign-badge">第3期 · 奶茶免单</span>
-          <a class="campaign-history" href="#">往期活动&nbsp;›</a>
+          <span class="campaign-badge" id="campaignBadge">第3期 · 奶茶免单</span>
         </div>
         <div class="campaign-content">
           <div class="campaign-main">
             <div class="campaign-copy">
-              <h2>助力冲榜<br />免费喝奶茶</h2>
-              <p>这周我请客</p>
+              <h2 id="campaignTitle">助力冲榜<br />免费喝奶茶</h2>
+              <p id="campaignSubtitle">这周我请客</p>
             </div>
             <div class="prize">
               <div class="prize-label">现金奖励</div>
-              <div class="prize-value">18<small>元</small></div>
+              <div class="prize-value"><span id="campaignPrizeValue">18</span><small>元</small></div>
               <button class="reward-trigger" type="button">查看全部奖励</button>
-              <span class="prize-note">一次性到账</span>
             </div>
           </div>
           <div class="campaign-meta">
-            <span class="live">进行中</span>
-            <div class="countdown-row">
+            <span class="live" id="campaignStatus">进行中</span>
+            <div class="countdown-row" id="campaignCountdown">
               <span class="countdown-label">结算倒计时</span>
               <strong class="countdown">0天&nbsp;00:11:00</strong>
             </div>
@@ -695,9 +763,17 @@
         </div>
       </section>
 
+      <section class="my-score" aria-labelledby="score-title">
+        <h2 id="score-title">我的本期成绩</h2>
+        <div class="score-grid">
+          <div class="score-item"><strong class="score-value">6</strong><span class="score-label">名次</span></div>
+          <div class="score-item"><strong class="score-value highlight">10元</strong><span class="score-label">免单金额</span></div>
+          <div class="score-item"><strong class="score-value">10000</strong><span class="score-label">到账积分</span></div>
+        </div>
+      </section>
+
       <div class="section-heading">
-        <h2>本期 TOP 5</h2>
-        <a href="#">排名规则&nbsp;›</a>
+        <h2>本期排行</h2>
       </div>
 
       <section class="rank-list" aria-label="本期排行榜">
@@ -779,7 +855,7 @@
     </main>
 
     <div class="bottom-bar">
-      <button class="primary-action">查看我的帖子</button>
+      <div class="action-placeholder" role="note">按现有线上功能显示按钮</div>
     </div>
     <div class="toast" role="status"></div>
   </div>
@@ -798,27 +874,27 @@
       <div class="reward-list">
         <div class="reward-row">
           <span class="reward-rank">01</span>
-          <div><div class="reward-name">第一名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <div><div class="reward-name">第一名</div><div class="reward-desc">现金奖励</div></div>
           <strong class="reward-amount">18元</strong>
         </div>
         <div class="reward-row">
           <span class="reward-rank">02</span>
-          <div><div class="reward-name">第二名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <div><div class="reward-name">第二名</div><div class="reward-desc">现金奖励</div></div>
           <strong class="reward-amount">15元</strong>
         </div>
         <div class="reward-row">
           <span class="reward-rank">03</span>
-          <div><div class="reward-name">第三名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <div><div class="reward-name">第三名</div><div class="reward-desc">现金奖励</div></div>
           <strong class="reward-amount">12元</strong>
         </div>
         <div class="reward-row">
           <span class="reward-rank">04</span>
-          <div><div class="reward-name">第四名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <div><div class="reward-name">第四名</div><div class="reward-desc">现金奖励</div></div>
           <strong class="reward-amount">10元</strong>
         </div>
         <div class="reward-row">
           <span class="reward-rank">05</span>
-          <div><div class="reward-name">第五名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <div><div class="reward-name">第五名</div><div class="reward-desc">现金奖励</div></div>
           <strong class="reward-amount">8元</strong>
         </div>
       </div>
@@ -833,6 +909,11 @@
     const rewardOverlay = document.querySelector('.reward-overlay');
     const rewardSheet = document.querySelector('.reward-sheet');
     const sheetHandle = document.querySelector('.sheet-handle-wrap');
+    const campaignBadge = document.querySelector('#campaignBadge');
+    const campaignTitle = document.querySelector('#campaignTitle');
+    const campaignSubtitle = document.querySelector('#campaignSubtitle');
+    const campaignStatus = document.querySelector('#campaignStatus');
+    const campaignCountdown = document.querySelector('#campaignCountdown');
     let toastTimer;
     let dragStartY = 0;
     let dragDistance = 0;
@@ -846,17 +927,29 @@
 
     document.querySelectorAll('.tab').forEach((tab) => {
       tab.addEventListener('click', () => {
+        const view = tab.dataset.view;
+        if (view === 'future') {
+          showToast('甜品免单即将开放');
+          return;
+        }
+
         document.querySelector('.tab.active')?.classList.remove('active');
         tab.classList.add('active');
-        showToast(`已切换至${tab.textContent}`);
+
+        const isPast = view === 'past';
+        campaignBadge.textContent = isPast ? '第2期 · 咖啡免单' : '第3期 · 奶茶免单';
+        campaignTitle.innerHTML = isPast ? '咖啡冲榜<br />免费喝咖啡' : '助力冲榜<br />免费喝奶茶';
+        campaignSubtitle.textContent = isPast ? '本期活动已结束' : '这周我请客';
+        campaignStatus.textContent = isPast ? '已结束' : '进行中';
+        campaignStatus.classList.toggle('ended', isPast);
+        campaignCountdown.hidden = isPast;
+        showToast(isPast ? '已切换至往期活动' : '已切换至本期活动');
       });
     });
 
     document.querySelectorAll('.rank-card').forEach((card) => {
       card.addEventListener('click', () => showToast(`打开「${card.dataset.name}」`));
     });
-
-    document.querySelector('.primary-action').addEventListener('click', () => showToast('正在打开我的帖子'));
 
     function openRewards() {
       rewardOverlay.classList.add('show');
