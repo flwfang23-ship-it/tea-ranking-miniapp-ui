@@ -279,6 +279,21 @@
     .prize-value small { font-size: 15px; font-weight: 680; }
     .prize-note { display: block; margin-top: 7px; color: var(--muted); font-size: 10px; }
 
+    .reward-trigger {
+      height: 29px;
+      margin-top: 10px;
+      padding: 0 11px;
+      border: 1px solid rgba(165,87,76,.32);
+      border-radius: 99px;
+      color: var(--cinnabar);
+      background: transparent;
+      font-size: 10px;
+      font-weight: 660;
+      cursor: pointer;
+    }
+
+    .reward-trigger:active { background: rgba(165,87,76,.07); }
+
     .countdown-row {
       gap: 8px;
     }
@@ -493,6 +508,139 @@
 
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+    body.drawer-open { overflow: hidden; }
+
+    .reward-overlay {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background: rgba(34,30,27,.38);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .24s ease, visibility .24s ease;
+    }
+
+    .reward-overlay.show { opacity: 1; visibility: visible; }
+
+    .reward-sheet {
+      width: min(100%, 430px);
+      max-height: 76vh;
+      overflow: auto;
+      padding: 9px 20px calc(20px + env(safe-area-inset-bottom));
+      border-radius: 28px 28px 0 0;
+      background: var(--surface);
+      box-shadow: 0 -20px 60px rgba(40,33,28,.18);
+      transform: translateY(100%);
+      transition: transform .28s cubic-bezier(.22,.72,.25,1);
+      overscroll-behavior: contain;
+      touch-action: pan-y;
+    }
+
+    .reward-overlay.show .reward-sheet { transform: translateY(0); }
+
+    .sheet-handle-wrap {
+      padding: 3px 0 13px;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .sheet-handle {
+      width: 38px;
+      height: 4px;
+      margin: 0 auto;
+      border-radius: 99px;
+      background: #d8d2ca;
+    }
+
+    .sheet-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 3px 2px 20px;
+    }
+
+    .sheet-title h2 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.3;
+      font-weight: 720;
+    }
+
+    .sheet-title p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .sheet-close {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      color: var(--muted);
+      background: #f2eee8;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .reward-list { display: grid; gap: 10px; }
+
+    .reward-row {
+      min-height: 66px;
+      padding: 13px 15px;
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fffefa;
+    }
+
+    .reward-row:first-child {
+      border-color: rgba(165,87,76,.25);
+      background: rgba(165,87,76,.045);
+    }
+
+    .reward-rank {
+      color: var(--tea);
+      font-size: 14px;
+      font-weight: 680;
+      letter-spacing: .04em;
+    }
+
+    .reward-name { font-size: 14px; font-weight: 650; }
+    .reward-desc { margin-top: 4px; color: var(--muted); font-size: 10px; }
+    .reward-amount { color: var(--cinnabar); font-size: 18px; font-weight: 720; }
+
+    .reward-note {
+      margin: 17px 2px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .reward-confirm {
+      width: 100%;
+      height: 50px;
+      border: 0;
+      border-radius: 15px;
+      color: #fffdfa;
+      background: var(--tea);
+      font-size: 15px;
+      font-weight: 670;
+      cursor: pointer;
+    }
+
     @media (max-width: 360px) {
       :root { --page-x: 14px; }
       .campaign-content { padding: 22px 18px; }
@@ -539,6 +687,7 @@
             <div class="prize">
               <div class="prize-label">现金奖励</div>
               <div class="prize-value">18<small>元</small></div>
+              <button class="reward-trigger" type="button">查看全部奖励</button>
               <span class="prize-note">一次性到账</span>
             </div>
           </div>
@@ -641,9 +790,58 @@
     <div class="toast" role="status"></div>
   </div>
 
+  <div class="reward-overlay" aria-hidden="true">
+    <section class="reward-sheet" role="dialog" aria-modal="true" aria-labelledby="reward-title">
+      <div class="sheet-handle-wrap" aria-hidden="true"><div class="sheet-handle"></div></div>
+      <div class="sheet-header">
+        <div class="sheet-title">
+          <h2 id="reward-title">本期奖励明细</h2>
+          <p>按活动结束时的最终排名发放，前5名均有奖励</p>
+        </div>
+        <button class="sheet-close" type="button" aria-label="关闭奖励明细">×</button>
+      </div>
+
+      <div class="reward-list">
+        <div class="reward-row">
+          <span class="reward-rank">01</span>
+          <div><div class="reward-name">第一名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <strong class="reward-amount">18元</strong>
+        </div>
+        <div class="reward-row">
+          <span class="reward-rank">02</span>
+          <div><div class="reward-name">第二名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <strong class="reward-amount">15元</strong>
+        </div>
+        <div class="reward-row">
+          <span class="reward-rank">03</span>
+          <div><div class="reward-name">第三名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <strong class="reward-amount">12元</strong>
+        </div>
+        <div class="reward-row">
+          <span class="reward-rank">04</span>
+          <div><div class="reward-name">第四名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <strong class="reward-amount">10元</strong>
+        </div>
+        <div class="reward-row">
+          <span class="reward-rank">05</span>
+          <div><div class="reward-name">第五名</div><div class="reward-desc">现金奖励 · 一次性到账</div></div>
+          <strong class="reward-amount">8元</strong>
+        </div>
+      </div>
+
+      <p class="reward-note">奖励将在活动结束后24小时内发放至微信零钱。同一用户每期仅可获得一档排名奖励。</p>
+      <button class="reward-confirm" type="button">知道了</button>
+    </section>
+  </div>
+
   <script>
     const toast = document.querySelector('.toast');
+    const rewardOverlay = document.querySelector('.reward-overlay');
+    const rewardSheet = document.querySelector('.reward-sheet');
+    const sheetHandle = document.querySelector('.sheet-handle-wrap');
     let toastTimer;
+    let dragStartY = 0;
+    let dragDistance = 0;
 
     function showToast(message) {
       toast.textContent = message;
@@ -665,6 +863,52 @@
     });
 
     document.querySelector('.primary-action').addEventListener('click', () => showToast('正在打开我的帖子'));
+
+    function openRewards() {
+      rewardOverlay.classList.add('show');
+      rewardOverlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('drawer-open');
+      document.querySelector('.sheet-close').focus();
+    }
+
+    function closeRewards() {
+      rewardOverlay.classList.remove('show');
+      rewardOverlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('drawer-open');
+      rewardSheet.style.transform = '';
+    }
+
+    document.querySelector('.reward-trigger').addEventListener('click', openRewards);
+    document.querySelector('.sheet-close').addEventListener('click', closeRewards);
+    document.querySelector('.reward-confirm').addEventListener('click', closeRewards);
+
+    rewardOverlay.addEventListener('click', (event) => {
+      if (event.target === rewardOverlay) closeRewards();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && rewardOverlay.classList.contains('show')) closeRewards();
+    });
+
+    sheetHandle.addEventListener('pointerdown', (event) => {
+      dragStartY = event.clientY;
+      dragDistance = 0;
+      sheetHandle.setPointerCapture(event.pointerId);
+      rewardSheet.style.transition = 'none';
+    });
+
+    sheetHandle.addEventListener('pointermove', (event) => {
+      if (!sheetHandle.hasPointerCapture(event.pointerId)) return;
+      dragDistance = Math.max(0, event.clientY - dragStartY);
+      rewardSheet.style.transform = `translateY(${dragDistance}px)`;
+    });
+
+    sheetHandle.addEventListener('pointerup', (event) => {
+      if (sheetHandle.hasPointerCapture(event.pointerId)) sheetHandle.releasePointerCapture(event.pointerId);
+      rewardSheet.style.transition = '';
+      if (dragDistance > 80) closeRewards();
+      else rewardSheet.style.transform = '';
+    });
   </script>
 </body>
 </html>
