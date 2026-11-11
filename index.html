@@ -160,13 +160,45 @@
     }
 
     .campaign {
-      padding: 24px;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius-lg);
-      background:
-        radial-gradient(circle at 93% 0%, rgba(165,87,76,.055), transparent 31%),
-        var(--surface);
+      background: var(--surface);
     }
+
+    .campaign-image {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      background: #e7e0d4;
+    }
+
+    .campaign-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .campaign-badge,
+    .campaign-history {
+      position: absolute;
+      top: 16px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 99px;
+      color: #fff;
+      background: rgba(46,40,34,.4);
+      backdrop-filter: blur(10px);
+      font-size: 11px;
+      font-weight: 620;
+      text-decoration: none;
+    }
+
+    .campaign-badge { left: 16px; }
+    .campaign-history { right: 16px; }
+
+    .campaign-content { padding: 26px 22px 24px; }
 
     .campaign-meta,
     .campaign-main,
@@ -181,22 +213,17 @@
     }
 
     .campaign-meta {
+      margin-top: 23px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .phase {
       display: flex;
       align-items: center;
       gap: 10px;
-    }
-
-    .phase-id {
-      padding: 5px 9px;
-      border-radius: 8px;
-      color: var(--tea);
-      background: var(--tea-soft);
-      font-weight: 680;
     }
 
     .live {
@@ -215,20 +242,17 @@
       background: currentColor;
     }
 
-    .history { color: var(--muted); text-decoration: none; }
-
     .campaign-main {
-      align-items: flex-end;
+      align-items: flex-start;
       gap: 18px;
-      margin-top: 28px;
     }
 
     .campaign-copy h2 {
-      margin: 0 0 8px;
-      font-size: 23px;
-      line-height: 1.3;
-      font-weight: 690;
-      letter-spacing: -.02em;
+      margin: 0 0 9px;
+      font-size: 25px;
+      line-height: 1.28;
+      font-weight: 720;
+      letter-spacing: -.025em;
     }
 
     .campaign-copy p {
@@ -237,7 +261,12 @@
       font-size: 14px;
     }
 
-    .prize { flex: 0 0 auto; text-align: right; }
+    .prize {
+      flex: 0 0 auto;
+      padding-left: 17px;
+      border-left: 1px solid var(--line);
+      text-align: right;
+    }
     .prize-label { color: var(--muted); font-size: 12px; }
     .prize-value {
       margin-top: 3px;
@@ -248,30 +277,19 @@
       letter-spacing: -.03em;
     }
     .prize-value small { font-size: 15px; font-weight: 680; }
-    .prize-note {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 4px 8px;
-      border-radius: 99px;
-      color: var(--tea);
-      background: var(--tea-soft);
-      font-size: 10px;
-    }
+    .prize-note { display: block; margin-top: 7px; color: var(--muted); font-size: 10px; }
 
     .countdown-row {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-      gap: 12px;
+      gap: 8px;
     }
 
-    .countdown-label { color: var(--muted); font-size: 13px; }
+    .countdown-label { color: var(--muted); font-size: 12px; }
     .countdown {
       color: var(--cinnabar);
       font-variant-numeric: tabular-nums;
-      font-size: 20px;
+      font-size: 15px;
       font-weight: 650;
-      letter-spacing: .04em;
+      letter-spacing: .02em;
     }
 
     .section-heading {
@@ -477,8 +495,8 @@
 
     @media (max-width: 360px) {
       :root { --page-x: 14px; }
-      .campaign { padding: 20px; }
-      .campaign-copy h2 { font-size: 20px; }
+      .campaign-content { padding: 22px 18px; }
+      .campaign-copy h2 { font-size: 22px; }
       .card-body { padding: 20px 18px; }
       .drink-name { font-size: 18px; }
     }
@@ -507,29 +525,30 @@
 
     <main>
       <section class="campaign">
-        <div class="campaign-meta">
-          <div class="phase">
-            <span class="phase-id">第3期</span>
+        <div class="campaign-image">
+          <img src="assets/ranking-hero-tea.png" alt="奶茶免单活动饮品" />
+          <span class="campaign-badge">第3期 · 奶茶免单</span>
+          <a class="campaign-history" href="#">往期活动&nbsp;›</a>
+        </div>
+        <div class="campaign-content">
+          <div class="campaign-main">
+            <div class="campaign-copy">
+              <h2>助力冲榜<br />免费喝奶茶</h2>
+              <p>这周我请客</p>
+            </div>
+            <div class="prize">
+              <div class="prize-label">现金奖励</div>
+              <div class="prize-value">18<small>元</small></div>
+              <span class="prize-note">一次性到账</span>
+            </div>
+          </div>
+          <div class="campaign-meta">
             <span class="live">进行中</span>
+            <div class="countdown-row">
+              <span class="countdown-label">结算倒计时</span>
+              <strong class="countdown">0天&nbsp;00:11:00</strong>
+            </div>
           </div>
-          <a class="history" href="#">往期活动&nbsp;›</a>
-        </div>
-
-        <div class="campaign-main">
-          <div class="campaign-copy">
-            <h2>助力冲榜免费喝奶茶</h2>
-            <p>这周我请客</p>
-          </div>
-          <div class="prize">
-            <div class="prize-label">现金</div>
-            <div class="prize-value">18<small>元</small></div>
-            <span class="prize-note">一次性到账</span>
-          </div>
-        </div>
-
-        <div class="countdown-row">
-          <span class="countdown-label">本场结算倒计时</span>
-          <strong class="countdown">0天&nbsp; 00:11:00</strong>
         </div>
       </section>
 
